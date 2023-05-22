@@ -32,6 +32,8 @@
 
 (require 'cmake-mode)
 
+(require 'pemacs-go-edit)
+
 (require 'pemacs-filemanage)
 (require 'pemacs-rtags)
 
