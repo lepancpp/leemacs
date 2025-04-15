@@ -35,7 +35,7 @@
 (require 'pemacs-go-edit)
 
 (require 'pemacs-filemanage)
-(require 'pemacs-rtags)
+;; (require 'pemacs-rtags)
 
 (provide 'pemacs-init)
 

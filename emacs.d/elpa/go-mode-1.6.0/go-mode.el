@@ -8,8 +8,6 @@
 
 ;; Author: The go-mode Authors
 ;; Version: 1.6.0
-;; Package-Version: 1.6.0
-;; Package-Commit: 3273fcece5d9ab7edd4f15b2d6bce61f4e5a0666
 ;; Keywords: languages go
 ;; Package-Requires: ((emacs "26.1"))
 ;; URL: https://github.com/dominikh/go-mode.el

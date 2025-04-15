@@ -1,4 +1,4 @@
-;;; pemacs-python-edit.el --- 
+;;; pemacs-python-edit.el ---
 
 ;; Copyright (C) 2013  Adam Jiang
 
@@ -31,11 +31,10 @@
 
 ;;; flymake for python
 (require 'flymake)
-(defun pemacs-flymake-python-init ()
-  (pemacs-flymake-generic-init
-   "~/.emacs.d/scripts/python-style-checker.sh"))
-(push '("\\.py$" pemacs-flymake-python-init)
-      flymake-allowed-file-name-masks)
+(when (boundp 'flymake-allowed-file-name-masks)
+  (setq flymake-allowed-file-name-masks
+        (cons '("\\.py$" pemacs-flymake-python-init)
+              flymake-allowed-file-name-masks)))
 
 (provide 'pemacs-python-edit)
 ;;; pemacs-python-edit.el ends here
