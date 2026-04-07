@@ -7,7 +7,6 @@
 (setq backup-directory-alist
       (quote ((".*" . "~/.emacs_backups/"))))
 
-;;; Git
-(require 'egg)
+(require 'magit)
 
 (provide 'pemacs-vcs)
