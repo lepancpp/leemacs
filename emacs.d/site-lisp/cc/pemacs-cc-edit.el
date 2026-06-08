@@ -50,7 +50,7 @@
   (require 'google-c-style)
   (add-hook 'c-mode-common-hook 'google-set-c-style)
   (add-hook 'c-mode-common-hook 'google-make-newline-indent)
-  (add-hook 'c-mode-common-hook (lambda () (setq-default fill-column 79)))
+  (add-hook 'c-mode-common-hook (lambda () (setq fill-column 79)))
   (defconst caplab-c-style
     '("Google"
       (c-basic-offset . 2)
@@ -69,7 +69,10 @@
   (add-to-list 'eglot-server-programs
                '((c-ts-mode c++-ts-mode c-mode c++-mode)
                  . ("clangd" "--background-index" "--clang-tidy"
-                    "--header-insertion=never" "--completion-style=detailed"))))
+                    "--header-insertion=never" "--completion-style=detailed"
+                    ;; Let clangd query the real compiler for system include
+                    ;; paths so libstdc++/glibc headers resolve in gcc projects.
+                    "--query-driver=/usr/bin/g++*,/usr/bin/gcc*,/usr/bin/c++*,/usr/bin/clang*"))))
 
 (dolist (hook '(c-ts-mode-hook c++-ts-mode-hook c-mode-hook c++-mode-hook))
   (add-hook hook #'eglot-ensure))
@@ -94,17 +97,23 @@
 
 ;;; --- Formatting: clang-format ----------------------------------------------
 (require 'clang-format)
-(setq clang-format-style-option "google")
+;; `clang-format-style' is buffer-local; set the default so every buffer
+;; gets Google style (plain setq would only affect the load-time buffer).
+(setq-default clang-format-style "google")
 
-(defun pemacs-cc-bind-clang-format (map)
-  "Bind clang-format commands in keymap MAP."
+;;; --- Keybindings (formatting, header/source switch, LSP actions) -----------
+(defun pemacs-cc-bind-keys (map)
+  "Bind C/C++ editing commands in keymap MAP."
   (define-key map (kbd "C-c i") #'clang-format-region)
-  (define-key map (kbd "C-c u") #'clang-format-buffer))
+  (define-key map (kbd "C-c u") #'clang-format-buffer)
+  (define-key map (kbd "C-c o") #'ff-find-other-file)  ; header <-> source
+  (define-key map (kbd "C-c r") #'eglot-rename)         ; LSP rename symbol
+  (define-key map (kbd "C-c a") #'eglot-code-actions))  ; LSP quick-fix / action
 
 (with-eval-after-load 'c-ts-mode
-  (pemacs-cc-bind-clang-format c-ts-base-mode-map))
+  (pemacs-cc-bind-keys c-ts-base-mode-map))
 (with-eval-after-load 'cc-mode
-  (pemacs-cc-bind-clang-format c-mode-base-map))
+  (pemacs-cc-bind-keys c-mode-base-map))
 
 ;;; --- Adjacent languages ----------------------------------------------------
 (require 'protobuf-mode)
