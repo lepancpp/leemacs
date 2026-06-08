@@ -1,6 +1,12 @@
 ;;; ======================================================================= ;;;
 ;;; MISC SETTINGS
 ;;; ======================================================================= ;;;
+;;; Log async native-compilation warnings quietly instead of popping up the
+;;; *Warnings* buffer. The warnings from third-party packages are benign;
+;;; they are still recorded in the *Async-native-compile-log* buffer if needed.
+(when (boundp 'native-comp-async-report-warnings-errors)
+  (setq native-comp-async-report-warnings-errors 'silent))
+
 (defun mis-setting ()
   (interactive)
   ;;; No startup message
