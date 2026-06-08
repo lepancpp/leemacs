@@ -11,6 +11,14 @@
   )
 
 (add-to-list 'load-path pemacs-install-dir)
+
+;;; Bootstrap package.el early so ELPA packages are on `load-path' before the
+;;; feature modules below require them (yasnippet, magit, ...).
+(require 'package)
+(add-to-list 'package-archives
+             '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+
 (require 'pemacs-misc)
 (require 'pemacs-apperance)
 (require 'pemacs-buffer)
@@ -35,9 +43,3 @@
 ;; (require 'pemacs-rtags)
 
 (provide 'pemacs-init)
-
-
-(require 'package)
-(add-to-list 'package-archives
-             '("MELPA Stable" . "https://stable.melpa.org/packages/") t)
-(package-initialize)

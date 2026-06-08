@@ -27,15 +27,11 @@
 	      (push ?'
 		    (getf autopair-dont-pair :code))))
 
-;;; YaSnippet for snips
+;;; YaSnippet for snips (modern yasnippet 0.14+ API)
 (require 'yasnippet)
-(yas/initialize)
-;; develop in data/yasnippet/snippets
-(setq yas/root-directory (concat pemacs-install-dir "data/yasnippet/snippets"))
-(yas/load-directory yas/root-directory)
-;; other options
-(setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt yas/x-prompt))
-(setq yas/wrap-around-region 'cua)
+(require 'yasnippet-snippets)            ; modern community snippet collection
+(setq yas-wrap-around-region t)
+(yas-global-mode 1)                      ; personal snippets: ~/.emacs.d/snippets
 
 ;;; Auto-inserting for templates
 (require 'autoinsert)
