@@ -21,11 +21,11 @@
 ;;; ‘M-x delete-trailing-whitespace' before save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-;;; Show line numbers
-(add-hook 'c-mode-common-hook (lambda () (linum-mode t)))
-(add-hook 'java-mode-hook (lambda () (linum-mode t)))
-(add-hook 'python-mode-hook (lambda () (linum-mode t)))
-(add-hook 'cmake-mode-hook (lambda () (linum-mode t)))
+;;; Line numbers are shown globally via `global-display-line-numbers-mode'
+;;; above.  The old per-mode `linum-mode' hooks were removed: `linum.el' was
+;;; dropped in Emacs 29, so calling `linum-mode' in Emacs 30 raised
+;;; (void-function linum-mode) inside the mode hooks, which aborted mode setup
+;;; (e.g. opening CMakeLists.txt failed with a "File mode specification error").
 
 ;;; Show whitespaces on GUI
 (require 'whitespace)
